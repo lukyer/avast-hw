@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  hw-kotlin:
+    container_name: hw-kotlin-dev
+    image: hw-kotlin-dev-image
+    restart: always
+    build:
+      context: kotlin
+      dockerfile: Dockerfile
+    ports:
+    - 8080:8080
+    networks:
+    - hw-network
+
+  hw-scala:
+    container_name: hw-scala-dev
+    image: hw-scala-dev-image
+    restart: always
+    build:
+      context: scala
+      dockerfile: Dockerfile
+    ports:
+    - 8980:8980
+    networks:
+    - hw-network
+
+networks:
+  hw-network:

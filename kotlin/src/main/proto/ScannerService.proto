@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.svacina.scanner";
+option java_outer_classname = "ScannerProto";
+
+service ScannerService {
+    rpc ScanUrl(stream Request) returns (stream Status);
+}
+
+message Request {
+    string url = 1;
+}
+
+message Status {
+    string url = 1;
+    int32 code = 2;
+    int32 time = 3;
+}
