@@ -1,0 +1,55 @@
+<html>
+<head>
+    <title>Scanner</title>
+    <script>
+        const resultLog = txt => document.querySelector("#results").innerHTML += txt
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector("#send").addEventListener("click", async () => {
+
+                const response = await fetch('/scan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        urls: document.querySelector("#payload").value.trim().split("\n")
+                    })
+                })
+                resultLog(" - Stream start - \n")
+
+                const reader = response.body.getReader();
+                reader.read().then(function process({ done, value }) {
+                    if (done) {
+                        resultLog(" - Stream end - \n")
+                        return;
+                    }
+                    resultLog(String.fromCharCode(...value))
+                    return reader.read().then(process);
+                });
+            });
+
+            const randHost = () => {
+                const randNum = () => Math.floor(Math.random()*25)+97
+                return String.fromCharCode(randNum(), randNum(), randNum())
+            }
+            for (let i = 0; i < 100; i++) {
+                document.querySelector("#payload").value += `http://${randHost()}.com\n`
+            }
+        });
+    </script>
+</head>
+<body>
+<p>Hi there! You can use this handy textarea to issue POST requests!</p>
+
+<textarea id="payload" rows="25" cols="50">
+https://seznam.cz
+https://idnes.cz
+https://notexisting.com
+https://ctrlv.cz
+</textarea>
+<button id="send">Send!</button>
+
+<pre id="results"></pre>
+</body>
+</html>
