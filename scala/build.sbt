@@ -16,5 +16,6 @@ enablePlugins(AkkaGrpcPlugin)
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-discovery" % akkaVersion,
   "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % "test",
-  "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.8" % "test",
+  "com.github.tomakehurst" % "wiremock" % "2.26.3" % "test"
 )

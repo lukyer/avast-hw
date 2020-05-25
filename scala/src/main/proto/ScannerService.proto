@@ -5,7 +5,7 @@ option java_package = "com.svacina.scanner";
 option java_outer_classname = "ScannerProto";
 
 service ScannerService {
-    rpc ScanUrl(stream Request) returns (stream Status);
+    rpc ScanUrl (stream Request) returns (stream Status);
 }
 
 message Request {
