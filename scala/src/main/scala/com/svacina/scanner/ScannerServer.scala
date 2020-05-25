@@ -4,7 +4,6 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.UseHttp2.Always
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.{Http, HttpConnectionContext}
-import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -24,11 +23,10 @@ class ScannerServer(system: ActorSystem) {
 
   def run(): Future[Http.ServerBinding] = {
     implicit val sys: ActorSystem = system
-    implicit val mat: Materializer = ActorMaterializer()
     implicit val ec: ExecutionContext = sys.dispatcher
 
     val service: HttpRequest => Future[HttpResponse] =
-      ScannerServiceHandler(new ScannerServiceImpl(mat))
+      ScannerServiceHandler(new ScannerServiceImpl)
 
     val bound = Http().bindAndHandleAsync(
       service,
